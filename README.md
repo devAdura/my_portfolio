@@ -1,5 +1,9 @@
 # Elite Software portfolio
 
+Production: https://elite-software-adura.vercel.app
+
+GitHub pushes to main automatically deploy on Vercel. The portfolio uses the separate Neon database elite-software-enquiries.
+
 Portfolio for Adura Gbemi, with a React and Next.js frontend, PostgreSQL enquiry storage, and a private owner inbox. The downloadable CV retains the official name.
 
 ## GitHub and Vercel
@@ -35,3 +39,4 @@ The owner inbox at /inbox uses a password, a signed eight-hour HTTP-only cookie,
 The original public site remains live while this deployment is prepared. This checkout contains source and public assets only. Existing enquiry records from the previous Cloudflare database are not copied automatically. Export and import those records separately if needed before retiring the previous site.
 
 No production PostgreSQL connection or GitHub/Vercel authorization has been embedded in this repository. Contact persistence requires database provisioning and the migration above.
+
