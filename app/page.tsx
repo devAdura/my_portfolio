@@ -21,10 +21,10 @@ export default function Home(){
  useEffect(()=>{
   if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const elements=document.querySelectorAll<HTMLElement>(".project,.expertise-grid article,.monogram-block,.section-top,.contact-form");
-  const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}}},{threshold:0.08});
+  const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add("is-visible");}else{entry.target.classList.remove("is-visible");}}},{threshold:0.08});
   elements.forEach((element,index)=>{element.style.setProperty("--reveal-delay",String((index%2)*90)+"ms");element.classList.add("scroll-reveal");observer.observe(element);});
   return ()=>{observer.disconnect();elements.forEach(element=>element.classList.remove("scroll-reveal","is-visible"));};
- },[]);
+ },[filter]);
  useEffect(()=>{if(selected)dialogRef.current?.showModal();else dialogRef.current?.close();},[selected]);
  async function copyEmail(){try{await navigator.clipboard.writeText("oyetundetim@gmail.com");setCopied(true);setTimeout(()=>setCopied(false),2000);}catch{setStatus("Email: oyetundetim@gmail.com");}}
  async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();const form=e.currentTarget;setSending(true);setStatus("");try{const response=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.fromEntries(new FormData(form)))});const result=await response.json() as {error?:string};if(!response.ok)throw new Error(result.error||"Please email me directly.");setStatus("Thank you. Your enquiry has been saved. You can also reach me directly by email or WhatsApp.");form.reset();}catch(error){setStatus(error instanceof Error?error.message:"Something went wrong. Please email me directly.");}finally{setSending(false);}}
@@ -38,4 +38,5 @@ export default function Home(){
  <footer className="wrap footer"><a className="footer-brand" href="#">ELITE SOFTWARE<span className="accent">.</span></a><span>Built with care. By Adura Gbemi.</span><a href="#">Back to top ↑</a><small>© {new Date().getFullYear()} Elite Software</small></footer>
  <dialog ref={dialogRef} className="project-dialog" onCancel={()=>setSelected(null)} onClick={e=>{if(e.target===e.currentTarget)setSelected(null);}} aria-labelledby="dialog-title">{selected&&<><button className="dialog-close round-button" onClick={()=>setSelected(null)} aria-label="Close project"><X/></button><span className="eyebrow">{selected.eyebrow}</span><h2 id="dialog-title">{selected.name}</h2><p className="large-copy">{selected.summary}</p><p>{selected.detail}</p><div className="tags">{selected.stack.map(s=><span key={s}>{s}</span>)}</div><div className="project-outcome"><span>WHAT IT EXPLORES</span><p>{selected.outcome}</p></div><div className="hero-actions"><a className="button primary" {...external} href={`https://github.com/devAdura/${selected.repo}`}>Explore source <Github size={17}/></a>{selected.live&&<a className="text-link" href={selected.live} {...external}>Visit project <ArrowUpRight size={17}/></a>}</div></>}</dialog></>;
 }
+
 
