@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {randomBytes} from 'node:crypto';
+import {inboxConfigured,validPassword,createSession,verifySession} from '../lib/inbox-auth.ts';
+process.env.INBOX_PASSWORD=randomBytes(24).toString('base64url');
+process.env.INBOX_SESSION_SECRET=randomBytes(32).toString('base64url');
+test('owner password is required and compared exactly',()=>{assert.equal(inboxConfigured(),true);assert.equal(validPassword(process.env.INBOX_PASSWORD),true);assert.equal(validPassword('wrong-password'),false);});
+test('signed session verifies while forged and malformed sessions fail',()=>{const token=createSession();assert.equal(verifySession(token),true);assert.equal(verifySession(undefined),false);assert.equal(verifySession(token.slice(0,-1)+(token.endsWith('a')?'b':'a')),false);assert.equal(verifySession('0.'+'a'.repeat(64)),false);assert.equal(verifySession(token+'.extra'),false);});
+test('rotating the session secret revokes existing sessions',()=>{const token=createSession();process.env.INBOX_SESSION_SECRET=randomBytes(32).toString('base64url');assert.equal(verifySession(token),false);});
+test('missing or weak owner configuration fails closed',()=>{const previous=process.env.INBOX_PASSWORD;process.env.INBOX_PASSWORD='short';assert.equal(inboxConfigured(),false);assert.equal(verifySession('anything'),false);assert.equal(validPassword('short'),false);process.env.INBOX_PASSWORD=previous;});
