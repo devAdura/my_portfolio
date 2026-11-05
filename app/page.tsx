@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowUpRight, ArrowRight, ArrowDown, Code2 as Github, Code2 as Linkedin, Menu, X, Check, Copy, Code2, Layers, Terminal, Download, MessageCircle } from "lucide-react";
 const projects = [
+ {id:"gloss",name:"Gloss Room",category:"Full stack",eyebrow:"APPOINTMENT BOOKING SYSTEM",summary:"From available time to confirmed appointment.",description:"A nail studio booking demo with live availability, timed slot holds, and simulated deposits.",stack:["Next.js","React","PostgreSQL"],live:"https://gloss-room.vercel.app/",detail:"Customers choose a treatment and reserve a slot. PostgreSQL prevents overlapping appointments. The hosted demo confirms bookings with simulated deposits. Owner tools support rescheduling, cancellations, and an audit trail.",outcome:"A complete customer booking flow with double-booking protection."},
  {id:"malaria",name:"Malaria Cell Intelligence",category:"Python & AI",eyebrow:"FINAL-YEAR PROJECT",summary:"Making a malaria image classifier easier to inspect.",description:"A research web app that uses deep learning to analyse blood smear images and Grad-CAM to show where the model focused.",stack:["React","FastAPI","Deep Learning","Grad-CAM"],live:"https://xai-malaria-web-app.vercel.app/",detail:"The React interface lets users upload a cell image, request a prediction from the FastAPI backend, and inspect a Grad-CAM heatmap alongside the original. This is a research prototype for exploring model behaviour and has no clinical use.",outcome:"A single workflow for image classification and visual explanation."},
  {id:"securelearn",name:"SecureLearn",category:"Full stack",eyebrow:"SECURE E-LEARNING PLATFORM",summary:"A learning space built around trust.",description:"A full stack academic prototype with personalised courses, role-based dashboards, and device-local WebAuthn passkeys.",stack:["Next.js","TypeScript","PostgreSQL","WebAuthn"],live:"https://secure-personalised-elearning.vercel.app",detail:"Built with React, Tailwind CSS, Prisma and Supabase Postgres. Students enrol, submit work and join discussions. Lecturers manage courses and feedback. Passkey verification happens on the device, so the server does not store fingerprints.",outcome:"Role-aware workflows, from enrolment to assessment."},
  {id:"chatbot",name:"Campus Companion",category:"Python & AI",eyebrow:"CONVERSATIONAL STUDENT SUPPORT",summary:"Making student support more approachable.",description:"A Python and Flask chatbot with typo-tolerant retrieval, session history, feedback, and a staff workspace for editing guidance.",stack:["Python","Flask","JavaScript","Tailwind CSS"],live:"https://student-support-chatbot-one.vercel.app",detail:"A student support demonstrator using TF-IDF retrieval and cosine similarity, with twelve guidance topics. Includes session-scoped chat history, feedback, CSRF-protected requests and a password-protected staff workspace. It provides general guidance and is not an official institutional service.",outcome:"A focused interface for student questions and answers."},
@@ -12,6 +13,7 @@ const projects = [
 type Project=typeof projects[number];
 const external={target:"_blank",rel:"noopener noreferrer"};
 const projectScreens={
+ gloss:{src:"/projects/gloss-room.webp",alt:"Gloss Room live nail studio appointment booking homepage"},
  malaria:{src:"/projects/malaria.webp",alt:"Malaria Cell Intelligence live interface with cell image upload and model output panels"},
  securelearn:{src:"/projects/securelearn.png",alt:"SecureLearn actual homepage with biometric assurance and learning controls"},
  chatbot:{src:"/projects/campus-companion.png",alt:"Campus Companion actual student support chat interface"},
@@ -20,7 +22,7 @@ const projectScreens={
 };
 function ProjectVisual({id}:{id:string}){
  const screen=projectScreens[id as keyof typeof projectScreens];
- return <div className="project-art screenshot-art"><Image src={id==="securelearn"?"/projects/securelearn-preview.webp":screen.src} alt={screen.alt} fill unoptimized={id==="securelearn" || id==="malaria"} sizes="(max-width: 760px) 90vw, 560px" className="project-image"/><span className="screenshot-caption">ACTUAL PROJECT INTERFACE</span></div>;
+ return <div className="project-art screenshot-art"><Image src={id==="securelearn"?"/projects/securelearn-preview.webp":screen.src} alt={screen.alt} fill unoptimized={id==="securelearn" || id==="malaria" || id==="gloss"} sizes="(max-width: 760px) 90vw, 560px" className="project-image"/><span className="screenshot-caption">ACTUAL PROJECT INTERFACE</span></div>;
 }
 export default function Home(){
  const [menu,setMenu]=useState(false),[filter,setFilter]=useState("All work"),[selected,setSelected]=useState<Project|null>(null),[copied,setCopied]=useState(false),[status,setStatus]=useState(""),[sending,setSending]=useState(false);
