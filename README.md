@@ -28,7 +28,7 @@ Checks: npm run typecheck, npm test, npm run build.
 
 ## Contact and inbox
 
-Direct email: oyetundetim@gmail.com. WhatsApp: +234 915 243 7771.
+Direct email: oyetundetim@gmail.com. WhatsApp: +234 915 241 3771.
 
 The contact form validates fields, rejects off-site requests and honeypot submissions, and uses PostgreSQL advisory locks to throttle repeated enquiries from the same email address. Enquiries are stored in PostgreSQL. Automatic email notifications are not configured.
 
